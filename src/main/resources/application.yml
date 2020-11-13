@@ -1,1 +1,10 @@
-
+spring:
+  datasource:
+    url: "${DATABASE_URL}"
+    username: "${DATABASE_USERNAME}"
+    password: "${DATABASE_PASSWORD}"
+  jpa:
+    database-platform: org.hibernate.dialect.${DATABASE_DIALECT}
+logging:
+  level:
+    root: ${LOGGING_LEVEL:INFO}
