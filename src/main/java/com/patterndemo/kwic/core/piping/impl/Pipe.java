@@ -5,6 +5,8 @@ import com.patterndemo.kwic.core.piping.AbstractPipe;
 import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Pipe<T> extends AbstractPipe<T> {
 
@@ -12,21 +14,33 @@ public class Pipe<T> extends AbstractPipe<T> {
 
     private final Semaphore dataSemaphore = new Semaphore(0);
 
+    private final Lock dataLock = new ReentrantLock();
+
     @Override
     public T getData() {
-        if (dataQueue.isEmpty() && !state.isAllowed()) {
-            throw new IllegalStateException(String.format("Current state \'%s\' does not allow getting data", state.getName()));
+        dataLock.lock();
+        try {
+            if (dataQueue.isEmpty() && !state.isAllowed()) {
+                throw new IllegalStateException(String.format("Current state \'%s\' does not allow getting data", state.getName()));
+            }
+            dataSemaphore.acquireUninterruptibly();
+            return dataQueue.poll();
+        } finally {
+            dataLock.unlock();
         }
-        dataSemaphore.acquireUninterruptibly();
-        return dataQueue.poll();
     }
 
     @Override
     public void putData(T data) {
-        if (!state.isAllowed()) {
-            throw new IllegalStateException(String.format("Current state \'%s\' does not allow putting data", state.getName()));
+        dataLock.lock();
+        try {
+            if (!state.isAllowed()) {
+                throw new IllegalStateException(String.format("Current state \'%s\' does not allow putting data", state.getName()));
+            }
+            dataQueue.add(data);
+            dataSemaphore.release();
+        } finally {
+            dataLock.unlock();
         }
-        dataQueue.add(data);
-        dataSemaphore.release();
     }
 }
