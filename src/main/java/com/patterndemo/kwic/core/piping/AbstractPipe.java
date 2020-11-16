@@ -1,17 +1,12 @@
 package com.patterndemo.kwic.core.piping;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public abstract class AbstractPipe<T> implements DataProvider<T>, DataReceiver<T> {
 
+    @Getter
+    @Setter
     protected State state = State.CLOSED;
-
-    @Override
-    public State getState() {
-        return state;
-    }
-
-    @Override
-    public void setState(State state) {
-        this.state = state;
-    }
 
 }
