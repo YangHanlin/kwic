@@ -1,7 +1,6 @@
 package com.patterndemo.kwic.core.piping.impl;
 
 import com.patterndemo.kwic.core.piping.AbstractPipe;
-import com.patterndemo.kwic.core.piping.State;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
