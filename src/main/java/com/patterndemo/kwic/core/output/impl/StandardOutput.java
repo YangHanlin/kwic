@@ -1,4 +1,6 @@
-package com.patterndemo.kwic.core.output;
+package com.patterndemo.kwic.core.output.impl;
+
+import com.patterndemo.kwic.core.output.Output;
 
 public class StandardOutput extends Output<String> {
 

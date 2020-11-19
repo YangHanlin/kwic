@@ -1,4 +1,6 @@
-package com.patterndemo.kwic.core.input;
+package com.patterndemo.kwic.core.input.impl;
+
+import com.patterndemo.kwic.core.input.Input;
 
 import java.util.Iterator;
 import java.util.List;
