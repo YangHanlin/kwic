@@ -10,4 +10,6 @@ public interface IndexedResultService {
 
     void saveBatch(String batchId, List<IndexedResult> results);
 
+    String saveBatch(List<IndexedResult> results);
+
 }

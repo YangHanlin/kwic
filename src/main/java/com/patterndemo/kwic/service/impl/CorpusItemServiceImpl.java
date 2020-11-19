@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CorpusItemServiceImpl implements CorpusItemService {
@@ -23,5 +24,12 @@ public class CorpusItemServiceImpl implements CorpusItemService {
     public void saveBatch(String batchId, List<CorpusItem> items) {
         items.forEach(item -> item.setBatchId(batchId));
         repository.saveAll(items);
+    }
+
+    @Override
+    public String saveBatch(List<CorpusItem> items) {
+        String batchId = UUID.randomUUID().toString();
+        saveBatch(batchId, items);
+        return batchId;
     }
 }

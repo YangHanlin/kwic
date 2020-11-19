@@ -10,4 +10,6 @@ public interface CorpusItemService {
 
    void saveBatch(String batchId, List<CorpusItem> items);
 
+   String saveBatch(List<CorpusItem> items);
+
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class IndexedResultServiceImpl implements IndexedResultService {
@@ -23,5 +24,12 @@ public class IndexedResultServiceImpl implements IndexedResultService {
     public void saveBatch(String batchId, List<IndexedResult> results) {
         results.forEach(result -> result.setBatchId(batchId));
         repository.saveAll(results);
+    }
+
+    @Override
+    public String saveBatch(List<IndexedResult> results) {
+        String batchId = UUID.randomUUID().toString();
+        saveBatch(batchId, results);
+        return batchId;
     }
 }
