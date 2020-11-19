@@ -106,6 +106,7 @@ function importFromBatch(batchId) {
             } else {
                 render('原文', items);
                 message(`输入：数据库中批次 ${batchId}`);
+                document.querySelector('#start-index-button').disabled = false;
             }
         })
     }
