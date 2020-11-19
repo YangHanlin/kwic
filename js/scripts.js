@@ -57,7 +57,7 @@ function message(message) {
 }
 
 function error(message) {
-    console.info(message);
+    console.error(message);
     document.querySelector('#message-region').innerText = '';
     document.querySelector('#error-region').innerHTML = message;
 }
@@ -86,6 +86,7 @@ function importFromFile(file) {
                         // console.log(data);
                         render('原文', data.items);
                         message(`输入：文件 ${file.name}`);
+                        document.querySelector('#start-index-button').disabled = false;
                     })
                 })
             }
@@ -95,8 +96,32 @@ function importFromFile(file) {
     reader.readAsText(file);
 }
 
-
+function importFromBatch(batchId) {
+    message('正在获取原文...');
+    get(`/corpus/batch/${batchId}`).then(response => {
+        response.json().then(data => {
+            const items = data.items;
+            if (items.length === 0) {
+                error('该批次存储的原文为空；是否输入错误的 Batch ID？');
+            } else {
+                render('原文', items);
+                message(`输入：数据库中批次 ${batchId}`);
+            }
+        })
+    }
+    )
+}
 
 document.querySelector('#file-picker').addEventListener('change', event => {
     importFromFile(event.target.files[0]);
+});
+
+document.querySelector('#database-picker').addEventListener('click', event => {
+    console.log('Clicked')
+    const batchId = prompt('请输入数据库中对应批次的 Batch ID');
+    if (batchId) {
+        importFromBatch(batchId);
+    }
 })
+
+document.querySelector('#start-index-button').disabled = true;
