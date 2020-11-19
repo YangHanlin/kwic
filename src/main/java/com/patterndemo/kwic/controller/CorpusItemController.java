@@ -7,6 +7,8 @@ import com.patterndemo.kwic.service.CorpusItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -25,6 +27,18 @@ public class CorpusItemController {
     @PostMapping("/batch")
     public BatchIdResult saveBatch(@RequestBody CorpusItemList items) {
         String batchId = service.saveBatch(items.getItems());
+        return new BatchIdResult(batchId);
+    }
+
+    @PostMapping("/cache")
+    public void saveCache(@RequestBody CorpusItemList items, HttpServletResponse response) {
+        service.saveCache(items.getItems());
+        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+    }
+
+    @PostMapping("/cache/persistence")
+    public BatchIdResult persistCache() {
+        String batchId = service.saveBatch(service.getCache());
         return new BatchIdResult(batchId);
     }
 

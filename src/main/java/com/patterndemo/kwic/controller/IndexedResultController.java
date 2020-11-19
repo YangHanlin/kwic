@@ -28,4 +28,16 @@ public class IndexedResultController {
         return new BatchIdResult(batchId);
     }
 
+    @GetMapping("/cache")
+    public IndexedResultList getCache() {
+        List<IndexedResult> results = service.getCache();
+        return new IndexedResultList(results);
+    }
+
+    @PostMapping("/cache/persistence")
+    public BatchIdResult persistCache() {
+        String batchId = service.saveBatch(service.getCache());
+        return new BatchIdResult(batchId);
+    }
+
 }

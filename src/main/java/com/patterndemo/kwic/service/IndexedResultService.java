@@ -12,4 +12,8 @@ public interface IndexedResultService {
 
     String saveBatch(List<IndexedResult> results);
 
+    List<IndexedResult> getCache();
+
+    void saveCache(List<IndexedResult> results);
+
 }

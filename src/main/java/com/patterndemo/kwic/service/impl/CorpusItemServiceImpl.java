@@ -3,9 +3,11 @@ package com.patterndemo.kwic.service.impl;
 import com.patterndemo.kwic.entity.CorpusItem;
 import com.patterndemo.kwic.repository.CorpusItemRepository;
 import com.patterndemo.kwic.service.CorpusItemService;
+import com.patterndemo.kwic.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,6 +16,9 @@ public class CorpusItemServiceImpl implements CorpusItemService {
 
     @Autowired
     private CorpusItemRepository repository;
+
+    @Autowired
+    private HttpSession session;
 
     @Override
     public List<CorpusItem> getBatch(String batchId) {
@@ -32,4 +37,15 @@ public class CorpusItemServiceImpl implements CorpusItemService {
         saveBatch(batchId, items);
         return batchId;
     }
+
+    @Override
+    public List<CorpusItem> getCache() {
+        return (List<CorpusItem>) session.getAttribute(Constant.CORPUS_ITEMS_CACHE_KEY);
+    }
+
+    @Override
+    public void saveCache(List<CorpusItem> items) {
+        session.setAttribute(Constant.CORPUS_ITEMS_CACHE_KEY, items);
+    }
+
 }

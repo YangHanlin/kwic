@@ -12,4 +12,8 @@ public interface CorpusItemService {
 
    String saveBatch(List<CorpusItem> items);
 
+   List<CorpusItem> getCache();
+
+   void saveCache(List<CorpusItem> items);
+
 }
