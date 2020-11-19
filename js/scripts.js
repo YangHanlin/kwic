@@ -48,8 +48,21 @@ function render(title, contents) {
     }
 }
 
+function message(message) {
+    console.info(`message: ${message}`);
+    document.querySelector('#message-region').innerText = message;
+    document.querySelector('#error-region').innerHTML = '';
+}
+
+function error(message) {
+    console.info(`error: ${message}`);
+    document.querySelector('#message-region').innerText = '';
+    document.querySelector('#error-region').innerHTML = message;
+}
+
 get('/results/batch/4d330ea2-9875-4290-a1ee-2e75f09addea').then(response => {
     response.json().then(data => {
         render('索引结果', data.results);
+        message(`共 ${data.results.length} 条结果`);
     })
 })
