@@ -8,7 +8,8 @@ function get(path) {
         headers: {
             'Content-Type': 'application/json'
         },
-        mode: 'cors'
+        mode: 'cors',
+        credentials: 'include'
     });
 }
 
@@ -19,7 +20,8 @@ function post(path, data) {
             'Content-Type': 'application/json'
         },
         mode: 'cors',
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
+        credentials: 'include'
     });
 }
 
@@ -49,20 +51,52 @@ function render(title, contents) {
 }
 
 function message(message) {
-    console.info(`message: ${message}`);
+    console.info(message);
     document.querySelector('#message-region').innerText = message;
     document.querySelector('#error-region').innerHTML = '';
 }
 
 function error(message) {
-    console.info(`error: ${message}`);
+    console.info(message);
     document.querySelector('#message-region').innerText = '';
     document.querySelector('#error-region').innerHTML = message;
 }
 
-get('/results/batch/4d330ea2-9875-4290-a1ee-2e75f09addea').then(response => {
-    response.json().then(data => {
-        render('索引结果', data.results);
-        message(`共 ${data.results.length} 条结果`);
-    })
+function importFromFile(file) {
+    const reader = new FileReader();
+    reader.addEventListener('load', event => {
+        const content = event.target.result;
+        message('导入文件成功');
+        message('正在上传...');
+        post('/corpus/cache', {
+            items: [
+                {
+                    content: content
+                }
+            ]
+        }).then(response => {
+            if (!response.ok) {
+                error('上传错误');
+                response.json().then(data => {
+                    console.error(data);
+                });
+            } else {
+                get('/corpus/cache').then(response => {
+                    response.json().then(data => {
+                        // console.log(data);
+                        render('原文', data.items);
+                        message(`输入：文件 ${file.name}`);
+                    })
+                })
+            }
+        });
+    });
+    message('正在导入文件...');
+    reader.readAsText(file);
+}
+
+
+
+document.querySelector('#file-picker').addEventListener('change', event => {
+    importFromFile(event.target.files[0]);
 })
