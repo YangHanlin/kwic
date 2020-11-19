@@ -2,6 +2,8 @@
 
 const base_url = 'http://127.0.0.1:8080';
 
+let request = null;
+
 function get(path) {
     return fetch(base_url + path, {
         method: 'GET',
@@ -87,6 +89,9 @@ function importFromFile(file) {
                         render('原文', data.items);
                         message(`输入：文件 ${file.name}`);
                         document.querySelector('#start-index-button').disabled = false;
+                        request = () => {
+                            return post('/indexing/cache');
+                        };
                     })
                 })
             }
@@ -107,10 +112,26 @@ function importFromBatch(batchId) {
                 render('原文', items);
                 message(`输入：数据库中批次 ${batchId}`);
                 document.querySelector('#start-index-button').disabled = false;
+                request = () => {
+                    return post(`/indexing/corpus/${batchId}`);
+                }
             }
         })
     }
     )
+}
+
+function startIndexing() {
+    message('正在进行索引...');
+    request().then(response => {
+        message('正在获取索引结果...');
+        get('/results/cache').then(response => {
+            response.json().then(data => {
+                render('索引结果', data.results);
+                message('索引完成');
+            })
+        })
+    })
 }
 
 document.querySelector('#file-picker').addEventListener('change', event => {
@@ -126,3 +147,5 @@ document.querySelector('#database-picker').addEventListener('click', event => {
 })
 
 document.querySelector('#start-index-button').disabled = true;
+
+document.querySelector('#start-index-button').addEventListener('click', startIndexing);
