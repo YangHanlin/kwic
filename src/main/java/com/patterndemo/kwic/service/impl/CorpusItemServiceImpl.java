@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,7 +41,8 @@ public class CorpusItemServiceImpl implements CorpusItemService {
 
     @Override
     public List<CorpusItem> getCache() {
-        return (List<CorpusItem>) session.getAttribute(Constant.CORPUS_ITEMS_CACHE_KEY);
+        Object cache = session.getAttribute(Constant.CORPUS_ITEMS_CACHE_KEY);
+        return cache == null ? new ArrayList<>() : (List<CorpusItem>) cache;
     }
 
     @Override

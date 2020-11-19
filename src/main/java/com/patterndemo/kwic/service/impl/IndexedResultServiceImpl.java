@@ -1,5 +1,6 @@
 package com.patterndemo.kwic.service.impl;
 
+import com.patterndemo.kwic.entity.CorpusItem;
 import com.patterndemo.kwic.entity.IndexedResult;
 import com.patterndemo.kwic.repository.IndexedResultRepository;
 import com.patterndemo.kwic.service.IndexedResultService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,7 +42,8 @@ public class IndexedResultServiceImpl implements IndexedResultService {
 
     @Override
     public List<IndexedResult> getCache() {
-        return (List<IndexedResult>) session.getAttribute(Constant.INDEXED_RESULTS_CACHE_KEY);
+        Object cache = session.getAttribute(Constant.INDEXED_RESULTS_CACHE_KEY);
+        return cache == null ? new ArrayList<>() : (List<IndexedResult>) cache;
     }
 
     @Override
