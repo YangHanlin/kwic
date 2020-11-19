@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>KWIC: Keyword In Context 索引系统</title>
+
+	<meta name="description" content="Source code generated using layoutit.com">
+	<meta name="author" content="LayoutIt!">
+
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<h1 class="text-center" style="margin-top: 3rem; margin-bottom: 3rem;">
+					KWIC: Keyword In Context 索引系统
+				</h1>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="row">
+							<div class="col-md-1">
+								<div class="dropdown" style="width: 100%;">
+
+									<button class="btn btn-primary dropdown-toggle" type="button"
+										id="dropdownMenuButton" data-toggle="dropdown">
+										导入
+									</button>
+									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+										<a class="dropdown-item" href="#">从文件</a>
+										<a class="dropdown-item" href="#">从数据库（Batch）</a>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="dropdown" style="width: 100%;">
+
+									<button class="btn btn-primary dropdown-toggle" type="button"
+										id="dropdownMenuButton" data-toggle="dropdown">
+										导出
+									</button>
+									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+										<a class="dropdown-item" href="#">至文本文档</a> 
+										<a class="dropdown-item" href="#">至 CSV 表格文档</a>
+										<a class="dropdown-item" href="#">至数据库</a>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-8">
+							</div>
+							<div class="col-md-2">
+
+								<button type="button" class="btn btn-success" style="width: 100%;">
+									开始索引
+								</button>
+							</div>
+						</div>
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>
+										#
+									</th>
+									<th id="data-title">
+										内容
+									</th>
+								</tr>
+							</thead>
+							<tbody id="data-body">
+								<!-- Nothing initially -->
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/scripts.js"></script>
+</body>
+
+</html>
