@@ -30,6 +30,12 @@ public class CorpusItemController {
         return new BatchIdResult(batchId);
     }
 
+    @GetMapping("/cache")
+    public CorpusItemList getCache() {
+        List<CorpusItem> items = service.getCache();
+        return new CorpusItemList(items);
+    }
+
     @PostMapping("/cache")
     public void saveCache(@RequestBody CorpusItemList items, HttpServletResponse response) {
         service.saveCache(items.getItems());
