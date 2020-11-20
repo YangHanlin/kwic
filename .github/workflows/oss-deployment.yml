@@ -58,4 +58,4 @@ jobs:
           ignored-patterns: '.git* *.md'
           # Whether to delete existing files before uploading
           # Optional; false by default; uncomment the following line to customize
-          # delete-first: false
+          delete-first: true
