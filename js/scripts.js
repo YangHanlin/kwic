@@ -3,6 +3,8 @@
 const base_url = 'http://127.0.0.1:8080';
 
 let request = null;
+let currentContents = null;
+let currentTitle = null;
 
 function get(path) {
     return fetch(base_url + path, {
@@ -50,6 +52,8 @@ function render(title, contents) {
             bodyElement.appendChild(row);
         }
     }
+    currentContents = contents;
+    currentTitle = title;
 }
 
 function message(message) {
@@ -62,6 +66,16 @@ function error(message) {
     console.error(message);
     document.querySelector('#message-region').innerText = '';
     document.querySelector('#error-region').innerHTML = message;
+}
+
+function save(filename, type, content) {
+    const element = document.createElement('a');
+    element.setAttribute('href', `data:${type};charset=utf-8,${encodeURIComponent(content)}`);
+    element.setAttribute('download', filename);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
 }
 
 function importFromFile(file) {
@@ -134,6 +148,38 @@ function startIndexing() {
     })
 }
 
+function exportPlainText() {
+    let plainContents = [];
+    currentContents.forEach(content => {
+        plainContents.push(content.content);
+    });
+    save(`${currentTitle}-${new Date().toISOString()}.txt`, 'text/plain', plainContents.join('\n'));
+}
+
+function exportCsv() {
+    let items = [
+        `"#","${currentTitle}"`
+    ];
+    for (let i = 0; i < currentContents.length; ++i) {
+        items.push(`"${i}","${currentContents[i].content}"`);
+    }
+    save(`${currentTitle}-${new Date().toISOString()}.csv`, 'text/csv', items.join('\n'));
+}
+
+function exportDatabase() {
+    message('正在保存至数据库...');
+    post('/results/cache/persistence').then(response => {
+        if (!response.ok) {
+            error('保存失败');
+            console.error(response);
+        } else {
+            response.json().then(data => {
+                message(`保存成功，结果集 Batch ID 为 ${data.batchId}`);
+            })
+        }
+    });
+}
+
 document.querySelector('#file-picker').addEventListener('change', event => {
     importFromFile(event.target.files[0]);
 });
@@ -144,7 +190,13 @@ document.querySelector('#database-picker').addEventListener('click', event => {
     if (batchId) {
         importFromBatch(batchId);
     }
-})
+});
+
+document.querySelector('#export-text-button').addEventListener('click', exportPlainText);
+
+document.querySelector('#export-csv-button').addEventListener('click', exportCsv);
+
+document.querySelector('#export-database-button').addEventListener('click', exportDatabase);
 
 document.querySelector('#start-index-button').disabled = true;
 
