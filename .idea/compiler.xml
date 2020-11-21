@@ -11,7 +11,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="kwic" target="14" />
+      <module name="kwic" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

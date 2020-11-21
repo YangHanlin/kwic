@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class SimpleShift extends SimpleFilter<String> {
+public class SimpleShiftFilter extends SimpleFilter<String> {
 
     @Override
     protected List<String> process(String data) {

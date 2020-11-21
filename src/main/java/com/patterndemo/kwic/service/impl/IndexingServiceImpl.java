@@ -9,8 +9,8 @@ import com.patterndemo.kwic.core.output.Output;
 import com.patterndemo.kwic.core.piping.DataProvider;
 import com.patterndemo.kwic.core.piping.DataReceiver;
 import com.patterndemo.kwic.core.piping.impl.Pipe;
-import com.patterndemo.kwic.core.shifting.SimpleShift;
-import com.patterndemo.kwic.core.sorting.SimpleSorting;
+import com.patterndemo.kwic.core.shifting.SimpleShiftFilter;
+import com.patterndemo.kwic.core.sorting.SimpleSortingFilter;
 import com.patterndemo.kwic.core.util.IgnoreCaseComparator;
 import com.patterndemo.kwic.core.util.RemoveBlankLineFilter;
 import com.patterndemo.kwic.entity.CorpusItem;
@@ -68,9 +68,9 @@ public class IndexingServiceImpl implements IndexingService {
         Filter<String> filter = factory
                 .fromSingleFilter(new RemoveBlankLineFilter())
                 .addPipe(new Pipe<>())
-                .addFilter(new SimpleShift())
+                .addFilter(new SimpleShiftFilter())
                 .addPipe(new Pipe<>())
-                .addFilter(new SimpleSorting<>(new IgnoreCaseComparator()))
+                .addFilter(new SimpleSortingFilter<>(new IgnoreCaseComparator()))
                 .build();
         filter.setDataProvider(input);
         filter.setDataReceiver(output);

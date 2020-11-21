@@ -11,7 +11,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class SimpleSorting<T extends Comparable<? super T>> extends BatchFilter<T> {
+public class SimpleSortingFilter<T extends Comparable<? super T>> extends BatchFilter<T> {
 
     @Getter
     @Setter
