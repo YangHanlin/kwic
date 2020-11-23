@@ -1,4 +1,4 @@
-FROM openjdk:11-alpine
+FROM openjdk:11
 VOLUME /tmp
 ARG EXTRACTED_DIR=./target/extracted
 ARG APP_DIR=/app
